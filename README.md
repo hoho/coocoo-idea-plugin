@@ -1,0 +1,2 @@
+coocoo-idea-plugin
+==================
