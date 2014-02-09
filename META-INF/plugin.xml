@@ -1,0 +1,44 @@
+<idea-plugin version="2">
+  <id>com.hoho.coocoo</id>
+  <name>Coocoo</name>
+  <version>0.0.0</version>
+  <depends>com.intellij.modules.lang</depends>
+  <vendor email="dakota@brokenpipe.ru" url="https://github.com/hoho">Marat Abdullin</vendor>
+
+  <description><![CDATA[
+      Coocoo MVC applications DSL
+      ]]></description>
+
+  <change-notes><![CDATA[
+      Plugin is in early development stage.
+      ]]>
+  </change-notes>
+
+  <!-- please see http://confluence.jetbrains.net/display/IDEADEV/Build+Number+Ranges for description -->
+  <idea-version since-build="107.105"/>
+
+  <!-- please see http://confluence.jetbrains.net/display/IDEADEV/Plugin+Compatibility+with+IntelliJ+Platform+Products
+       on how to target different products -->
+  <!-- uncomment to enable plugin in all products-->
+  <depends>com.intellij.modules.lang</depends>
+
+
+  <application-components>
+    <!-- Add your application components here -->
+  </application-components>
+
+  <project-components>
+  </project-components>
+
+  <actions>
+    <!-- Add your actions here -->
+  </actions>
+
+  <extensions defaultExtensionNs="com.intellij">
+      <fileTypeFactory implementation="com.hoho.coocoo.CoocooFileTypeFactory" />
+      <!--<lang.parserDefinition language="Coocoo" implementationClass="com.hoho.coocoo.CoocooParserDefinition" />-->
+      <lang.syntaxHighlighterFactory key="Coocoo" implementationClass="com.hoho.coocoo.CoocooSyntaxHighlighterFactory" />
+      <colorSettingsPage implementation="com.hoho.coocoo.CoocooColorSettingsPage" />
+      <!--<languageInjector implementation="com.hoho.coocoo.CoocooJavascriptInjector" />-->
+  </extensions>
+</idea-plugin>

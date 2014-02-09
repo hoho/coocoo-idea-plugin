@@ -1,0 +1,12 @@
+.idea
+gen
+out
+*.class
+
+# Package Files #
+*.jar
+*.war
+*.ear
+
+.DS_Store
+
