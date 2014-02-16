@@ -34,8 +34,8 @@ WHITE_SPACE = [\ \t\f]+
 IDENTIFIER = [a-zA-Z_][a-zA-Z0-9_]*
 STRING = \"([^\"\r\n\\]|\\.)*\" | '([^'\r\n\\]|\\.)*'
 
-DOM_EVENTS = "CLICK"|"DBLCLICK"|"MOUSEDOWN"|"MOUSEUP"|"MOUSEOVER"|"MOUSEMOVE"|"MOUSEOUT"|"DRAGSTART"|"DRAG"|"DRAGENTER"|"DRAGLEAVE"|"DRAGOVER"|"DROP"|"DRAGEND"|"KEYDOWN"|"KEYPRESS"|"KEYUP"|"LOAD"|"UNLOAD"|"ABORT"|"ERROR"|"RESIZE"|"SCROLL"|"SELECT"|"CHANGE"|"INPUT"|"SUBMIT"|"RESET"|"FOCUS"|"BLUR"|"FOCUSIN"|"FOCUSOUT"
-KEYWORD = "APPLICATION"|"MODEL"|"COLLECTION"|"VIEW"|"CONSTRUCT"|"DOM"|"DESTRUCT"|"PROPERTY"|"METHOD"|"DESTROY"|"THIS"|"SET"|"GET"|"TEXT"|"TEMPLATE"|"PARAM"|"APPLY"|"APPEND"|"RENDER"|"VALUE"|"CLASS"|"CREATE"|"ADD"|"REMOVE"|"TOGGLE"|"CALL"|{DOM_EVENTS}
+DOM = "CLICK"|"DBLCLICK"|"MOUSEDOWN"|"MOUSEUP"|"MOUSEOVER"|"MOUSEMOVE"|"MOUSEOUT"|"DRAGSTART"|"DRAG"|"DRAGENTER"|"DRAGLEAVE"|"DRAGOVER"|"DROP"|"DRAGEND"|"KEYDOWN"|"KEYPRESS"|"KEYUP"|"LOAD"|"UNLOAD"|"ABORT"|"ERROR"|"RESIZE"|"SCROLL"|"SELECT"|"CHANGE"|"INPUT"|"SUBMIT"|"RESET"|"FOCUS"|"BLUR"|"FOCUSIN"|"FOCUSOUT"
+KEYWORD = "APPLICATION"|"MODEL"|"COLLECTION"|"VIEW"|"CONSTRUCT"|"DOM"|"DESTRUCT"|"PROPERTY"|"METHOD"|"DESTROY"|"THIS"|"SET"|"GET"|"TEXT"|"TEMPLATE"|"PARAM"|"APPLY"|"APPEND"|"RENDER"|"VALUE"|"CLASS"|"CREATE"|"REMOVE"|"TOGGLE"|"CALL"|"TEST"|"CHOOSE"|"WHEN"|"OTHERWISE"|"AJAX"|"TRIGGER"|"ROUTE"|"PATHNAME"|"HASH"|"QUERYSTRING"|"URL"|"POST"|"TYPE"|"DATA"|"SUCCESS"|"ERROR"|"COMPLETE"|{DOM}
 COMMENT = [\ \t\f]* ("//" [^\r\n]*) [\ \t\f]*
 
 PUSHER = "+"
@@ -52,6 +52,7 @@ JAVASCRIPT = . | {WHITE_SPACE} | {CRLF} | {COMMENT} | {STRING} | {KEYWORD} | {PU
 %state IN_JAVASCRIPT
 %state IN_JAVASCRIPT2
 %state AFTER
+%state GETTER
 %state IN_BAD
 
 %%
@@ -63,8 +64,8 @@ JAVASCRIPT = . | {WHITE_SPACE} | {CRLF} | {COMMENT} | {STRING} | {KEYWORD} | {PU
 <YYINITIAL>          "["                             { return SUBCOOCOO; }
 <YYINITIAL, AFTER>   "]"                             { yybegin(AFTER); return SUBCOOCOO; }
 
-<YYINITIAL>          "$"                             { return VARIABLE_GETTER; }
-<YYINITIAL>          "@"                             { return PROPERTY_GETTER; }
+<YYINITIAL>          "$"                             { yybegin(GETTER); return VARIABLE_GETTER; }
+<YYINITIAL>          "@"                             { yybegin(GETTER); return PROPERTY_GETTER; }
 <YYINITIAL, AFTER>   "<"                             { yybegin(YYINITIAL); return TYPIFICATION; }
 <YYINITIAL, AFTER>   ">"                             { yybegin(AFTER); return TYPIFICATION; }
 
@@ -78,6 +79,7 @@ JAVASCRIPT = . | {WHITE_SPACE} | {CRLF} | {COMMENT} | {STRING} | {KEYWORD} | {PU
 <YYINITIAL>          "JS"                            { yybegin(IN_JAVASCRIPT2); readMultilineJavaScript(YYINITIAL); return KEYWORD; }
 
 <YYINITIAL>          {KEYWORD}                       { yybegin(AFTER); return KEYWORD; }
+<GETTER>             {IDENTIFIER}                    { yybegin(AFTER); return VARIABLE; }
 <YYINITIAL>          {IDENTIFIER}                    { yybegin(AFTER); return IDENTIFIER; }
 
                      {CRLF}                          { yybegin(YYINITIAL); return CRLF; }

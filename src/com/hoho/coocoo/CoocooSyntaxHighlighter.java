@@ -13,14 +13,15 @@ import static com.intellij.openapi.editor.colors.TextAttributesKey.createTextAtt
 
 public class CoocooSyntaxHighlighter extends SyntaxHighlighterBase {
     public static final TextAttributesKey KEYWORD = createTextAttributesKey("COOCOO_KEYWORD", DefaultLanguageHighlighterColors.KEYWORD);
-    public static final TextAttributesKey IDENTIFIER = createTextAttributesKey("COOCOO_IDENTIFIER", DefaultLanguageHighlighterColors.FUNCTION_CALL);
+    public static final TextAttributesKey IDENTIFIER = createTextAttributesKey("COOCOO_IDENTIFIER", DefaultLanguageHighlighterColors.IDENTIFIER);
     public static final TextAttributesKey STRING = createTextAttributesKey("COOCOO_STRING", DefaultLanguageHighlighterColors.STRING);
     public static final TextAttributesKey JAVASCRIPT = createTextAttributesKey("COOCOO_JAVASCRIPT", DefaultLanguageHighlighterColors.NUMBER);
     public static final TextAttributesKey COMMENT = createTextAttributesKey("COOCOO_COMMENT", DefaultLanguageHighlighterColors.LINE_COMMENT);
     public static final TextAttributesKey PUSHER = createTextAttributesKey("COOCOO_PUSHER", DefaultLanguageHighlighterColors.KEYWORD);
-    public static final TextAttributesKey SUBCOOCOO = createTextAttributesKey("COOCOO_SUBCOOCOO", DefaultLanguageHighlighterColors.FUNCTION_DECLARATION);
+    public static final TextAttributesKey SUBCOOCOO = createTextAttributesKey("COOCOO_SUBCOOCOO", DefaultLanguageHighlighterColors.INSTANCE_METHOD);
     public static final TextAttributesKey VARIABLE_GETTER = createTextAttributesKey("COOCOO_VARIABLE_GETTER", DefaultLanguageHighlighterColors.INSTANCE_FIELD);
     public static final TextAttributesKey PROPERTY_GETTER = createTextAttributesKey("COOCOO_PROPERTY_GETTER", DefaultLanguageHighlighterColors.INSTANCE_FIELD);
+    public static final TextAttributesKey VARIABLE = createTextAttributesKey("COOCOO_VARIABLE", DefaultLanguageHighlighterColors.INSTANCE_FIELD);
     public static final TextAttributesKey TYPIFICATION = createTextAttributesKey("COOCOO_TYPIFICATION", DefaultLanguageHighlighterColors.METADATA);
 
     private static final TextAttributesKey[] KEYWORDS = new TextAttributesKey[]{KEYWORD};
@@ -32,6 +33,7 @@ public class CoocooSyntaxHighlighter extends SyntaxHighlighterBase {
     private static final TextAttributesKey[] SUBCOOCOOS = new TextAttributesKey[]{SUBCOOCOO};
     private static final TextAttributesKey[] VARIABLE_GETTERS = new TextAttributesKey[]{VARIABLE_GETTER};
     private static final TextAttributesKey[] PROPERTY_GETTERS = new TextAttributesKey[]{PROPERTY_GETTER};
+    private static final TextAttributesKey[] VARIABLES = new TextAttributesKey[]{VARIABLE};
     private static final TextAttributesKey[] TYPIFICATIONS = new TextAttributesKey[]{TYPIFICATION};
     private static final TextAttributesKey[] EMPTY = new TextAttributesKey[0];
 
@@ -62,6 +64,8 @@ public class CoocooSyntaxHighlighter extends SyntaxHighlighterBase {
             return VARIABLE_GETTERS;
         } else if (tokenType.equals(CoocooTypes.PROPERTY_GETTER)) {
             return PROPERTY_GETTERS;
+        } else if (tokenType.equals(CoocooTypes.VARIABLE)) {
+            return VARIABLES;
         } else if (tokenType.equals(CoocooTypes.TYPIFICATION)) {
             return TYPIFICATIONS;
         } else {
