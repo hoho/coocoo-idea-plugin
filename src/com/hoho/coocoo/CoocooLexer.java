@@ -47,6 +47,14 @@ public class CoocooLexer extends LookAheadLexer {
                 setStart(start);
                 yybegin(state);
             }
+
+            @Override
+            protected void readMultilineJavaScript(int state) throws IOException {
+                final int start = getTokenStart();
+
+                setStart(start);
+                yybegin(state);
+            }
         }));
     }
 

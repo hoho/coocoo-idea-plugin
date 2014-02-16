@@ -14,45 +14,6 @@
   tokenTypeClass="com.hoho.coocoo.psi.CoocooTokenType"
 }
 
-root ::= coocoo_template *
+private elements ::= KEYWORD COMMENT IDENTIFIER STRING JAVASCRIPT_BEGIN JAVASCRIPT JAVASCRIPT_END SUBCOOCOO PUSHER CRLF WHITE_SPACE VARIABLE_GETTER PROPERTY_GETTER TYPIFICATION
 
-KEYWORD
-
-private coocoo_template ::= (COMMENT* WHITE_SPACE* CRLF)* TEMPLATE_NAME VARIABLE* suite
-
-private suite ::= CRLF (INDENT statement+ DEDENT)?
-
-private statement ::= (CSS | expression | cmd) COMMENT* CRLF
-
-private expression ::= COMMENT* (STRING | js | "PAYLOAD") COMMENT*
-
-private js ::= JAVASCRIPT_BEGIN JAVASCRIPT JAVASCRIPT_END
-
-JAVASCRIPT_BEGIN ::= "("
-JAVASCRIPT_END ::= ")"
-JAVASCRIPT ::=
-
-private attr_cmd_name ::= "ATTR" COMMENT* WHITE_SPACE COMMENT*
-private call_cmd_name ::= "CALL" COMMENT* WHITE_SPACE COMMENT*
-private choose_cmd_name ::= "CHOOSE" COMMENT*
-private each_cmd_name ::= "EACH" COMMENT* WHITE_SPACE COMMENT*
-private insert_cmd_name ::= "INSERT" COMMENT* WHITE_SPACE COMMENT*
-private set_cmd_name ::= "SET" COMMENT* WHITE_SPACE COMMENT*
-private test_cmd_name ::= "TEST" COMMENT* WHITE_SPACE COMMENT*
-private with_cmd_name ::= "WITH" COMMENT* WHITE_SPACE COMMENT*
-
-private choose_when_name ::= "WHEN" COMMENT* WHITE_SPACE COMMENT*
-private choose_otherwise_name ::= "OTHERWISE" COMMENT*
-private with_else_name ::= "ELSE" COMMENT*
-
-private cmd ::= attr_cmd | call_cmd | choose_cmd | each_cmd |
-                insert_cmd | set_cmd | test_cmd | with_cmd
-
-private attr_cmd ::= attr_cmd_name expression WHITE_SPACE expression
-private call_cmd ::= call_cmd_name TEMPLATE_NAME (WHITE_SPACE expression)* suite?
-private choose_cmd ::= choose_cmd_name CRLF INDENT (choose_when_name expression suite CRLF)+ (choose_otherwise_name suite CRLF)? DEDENT
-private each_cmd ::= each_cmd_name (VARIABLE WHITE_SPACE)? (VARIABLE WHITE_SPACE)? expression suite
-private insert_cmd ::= insert_cmd_name expression
-private set_cmd ::= set_cmd_name VARIABLE ((COMMENT* WHITE_SPACE expression) | suite)
-private test_cmd ::= test_cmd_name expression suite
-private with_cmd ::= with_cmd_name VARIABLE COMMENT* WHITE_SPACE expression suite (CRLF with_else_name suite)?
+root ::= elements

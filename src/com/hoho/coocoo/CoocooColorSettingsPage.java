@@ -14,13 +14,15 @@ import java.util.Map;
 public class CoocooColorSettingsPage implements ColorSettingsPage {
     private static final AttributesDescriptor[] DESCRIPTORS = new AttributesDescriptor[]{
             new AttributesDescriptor("Keyword", CoocooSyntaxHighlighter.KEYWORD),
-            new AttributesDescriptor("Template name", CoocooSyntaxHighlighter.TEMPLATE_NAME),
-            new AttributesDescriptor("Tag", CoocooSyntaxHighlighter.TAG),
-            new AttributesDescriptor("Variable", CoocooSyntaxHighlighter.VARIABLE_NAME),
+            new AttributesDescriptor("Identifier", CoocooSyntaxHighlighter.IDENTIFIER),
             new AttributesDescriptor("String", CoocooSyntaxHighlighter.STRING),
             new AttributesDescriptor("JavaScript", CoocooSyntaxHighlighter.JAVASCRIPT),
             new AttributesDescriptor("Comment", CoocooSyntaxHighlighter.COMMENT),
-            new AttributesDescriptor("Bad character", CoocooSyntaxHighlighter.BAD_CHARACTER),
+            new AttributesDescriptor("Pusher", CoocooSyntaxHighlighter.PUSHER),
+            new AttributesDescriptor("Subcoocoo", CoocooSyntaxHighlighter.SUBCOOCOO),
+            new AttributesDescriptor("Variable getter", CoocooSyntaxHighlighter.VARIABLE_GETTER),
+            new AttributesDescriptor("Property getter", CoocooSyntaxHighlighter.PROPERTY_GETTER),
+            new AttributesDescriptor("Typification", CoocooSyntaxHighlighter.TYPIFICATION),
     };
 
     @Nullable
@@ -38,31 +40,32 @@ public class CoocooColorSettingsPage implements ColorSettingsPage {
     @NotNull
     @Override
     public String getDemoText() {
-        return "// Hello from Coocoo\n" +
-                "template1 arg1 arg2\n" +
-                "    div.hello[what=\"world\"]\n" +
-                "        CHOOSE\n" +
-                "            WHEN (arg1)\n" +
-                "                \"Crede firmiter et peca fortiter\"\n" +
-                "            WHEN (arg2 instanceof Object)\n" +
-                "                SET somevar (1 + 2 + 3)\n" +
-                "                (somevar + 4)\n" +
-                "            OTHERWISE\n" +
-                "                CALL template2 ({aa: 'bb', cc: 'dd'})\n" +
-                "                    h1\n" +
-                "                        \"Hello world\"\n" +
+        return "// Some comment\n" +
+                "VIEW Item\n" +
+                "    PROPERTY model<MODEL Item>\n" +
+                "    PROPERTY textNode<Node>\n" +
                 "\n" +
-                "/* Another comment */\n" +
-                "template2 data\n" +
-                "    PAYLOAD\n" +
-                "    ul\n" +
-                "        EACH key val (data)\n" +
-                "            li\n" +
-                "                (key)\n" +
-                "                \" — \"\n" +
-                "                (val)\n" +
+                "    CONSTRUCT m\n" +
+                "        THIS SET model $m\n" +
                 "\n" +
-                "!Bad input";
+                "        MODEL Item $m\n" +
+                "            CHANGE \"title\" val\n" +
+                "                DOM @textNode TEXT SET $val\n" +
+                "\n" +
+                "            DESTROY\n" +
+                "                THIS DESTROY\n" +
+                "\n" +
+                "    RENDER\n" +
+                "        +TEMPLATE \"conkitty:item\" APPLY [+MODEL Item @model GET title]\n" +
+                "            \"text\" node\n" +
+                "                THIS SET textNode $node\n" +
+                "\n" +
+                "            \"remove\" node\n" +
+                "                DOM $node\n" +
+                "                    CLICK\n" +
+                "                        JS\n" +
+                "                            alert(123);\n" +
+                "                        MODEL Item @model DESTROY\n";
     }
 
     @Nullable
