@@ -15,6 +15,8 @@ public class CoocooColorSettingsPage implements ColorSettingsPage {
     private static final AttributesDescriptor[] DESCRIPTORS = new AttributesDescriptor[]{
             new AttributesDescriptor("Keyword", CoocooSyntaxHighlighter.KEYWORD),
             new AttributesDescriptor("Identifier", CoocooSyntaxHighlighter.IDENTIFIER),
+            new AttributesDescriptor("Class", CoocooSyntaxHighlighter.COOCLASS),
+            new AttributesDescriptor("Name", CoocooSyntaxHighlighter.COONAME),
             new AttributesDescriptor("String", CoocooSyntaxHighlighter.STRING),
             new AttributesDescriptor("JavaScript", CoocooSyntaxHighlighter.JAVASCRIPT),
             new AttributesDescriptor("Comment", CoocooSyntaxHighlighter.COMMENT),
@@ -22,7 +24,9 @@ public class CoocooColorSettingsPage implements ColorSettingsPage {
             new AttributesDescriptor("Subcoocoo", CoocooSyntaxHighlighter.SUBCOOCOO),
             new AttributesDescriptor("Variable getter", CoocooSyntaxHighlighter.VARIABLE_GETTER),
             new AttributesDescriptor("Property getter", CoocooSyntaxHighlighter.PROPERTY_GETTER),
+            new AttributesDescriptor("Variable", CoocooSyntaxHighlighter.VARIABLE),
             new AttributesDescriptor("Typification", CoocooSyntaxHighlighter.TYPIFICATION),
+            new AttributesDescriptor("Nullable", CoocooSyntaxHighlighter.NULLABLE),
     };
 
     @Nullable
@@ -43,7 +47,7 @@ public class CoocooColorSettingsPage implements ColorSettingsPage {
         return "// Some comment\n" +
                 "VIEW Item\n" +
                 "    PROPERTY model<MODEL Item>\n" +
-                "    PROPERTY textNode<Node>\n" +
+                "    PROPERTY textNode<?Node>\n" +
                 "\n" +
                 "    CONSTRUCT m\n" +
                 "        THIS SET model $m\n" +

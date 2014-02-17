@@ -34,8 +34,10 @@ WHITE_SPACE = [\ \t\f]+
 IDENTIFIER = [a-zA-Z_][a-zA-Z0-9_]*
 STRING = \"([^\"\r\n\\]|\\.)*\" | '([^'\r\n\\]|\\.)*'
 
+KEYWORD_WITH_CLASS = "MODEL"|"COLLECTION"|"VIEW"|"ROUTE"
+KEYWORD_WITH_NAME = "METHOD"|"PROPERTY"|"CALL"|"SET"|"GET"
 DOM = "CLICK"|"DBLCLICK"|"MOUSEDOWN"|"MOUSEUP"|"MOUSEOVER"|"MOUSEMOVE"|"MOUSEOUT"|"DRAGSTART"|"DRAG"|"DRAGENTER"|"DRAGLEAVE"|"DRAGOVER"|"DROP"|"DRAGEND"|"KEYDOWN"|"KEYPRESS"|"KEYUP"|"LOAD"|"UNLOAD"|"ABORT"|"ERROR"|"RESIZE"|"SCROLL"|"SELECT"|"CHANGE"|"INPUT"|"SUBMIT"|"RESET"|"FOCUS"|"BLUR"|"FOCUSIN"|"FOCUSOUT"
-KEYWORD = "APPLICATION"|"MODEL"|"COLLECTION"|"VIEW"|"CONSTRUCT"|"DOM"|"DESTRUCT"|"PROPERTY"|"METHOD"|"DESTROY"|"THIS"|"SET"|"GET"|"TEXT"|"TEMPLATE"|"PARAM"|"APPLY"|"APPEND"|"RENDER"|"VALUE"|"CLASS"|"CREATE"|"REMOVE"|"TOGGLE"|"CALL"|"TEST"|"CHOOSE"|"WHEN"|"OTHERWISE"|"AJAX"|"TRIGGER"|"ROUTE"|"PATHNAME"|"HASH"|"QUERYSTRING"|"URL"|"POST"|"TYPE"|"DATA"|"SUCCESS"|"ERROR"|"COMPLETE"|{DOM}
+KEYWORD = "APPLICATION"|"CONSTRUCT"|"DOM"|"DESTRUCT"|"DESTROY"|"THIS"|"TEXT"|"TEMPLATE"|"PARAM"|"APPLY"|"APPEND"|"RENDER"|"VALUE"|"CLASS"|"CREATE"|"ADD"|"REMOVE"|"TOGGLE"|"TEST"|"CHOOSE"|"WHEN"|"OTHERWISE"|"AJAX"|"TRIGGER"|"PATHNAME"|"HASH"|"QUERYSTRING"|"URL"|"POST"|"TYPE"|"DATA"|"SUCCESS"|"ERROR"|"COMPLETE"|"ON"|"JS"|"FIND"|"EACH"|"FILTER"|{DOM}
 COMMENT = [\ \t\f]* ("//" [^\r\n]*) [\ \t\f]*
 
 PUSHER = "+"
@@ -53,6 +55,9 @@ JAVASCRIPT = . | {WHITE_SPACE} | {CRLF} | {COMMENT} | {STRING} | {KEYWORD} | {PU
 %state IN_JAVASCRIPT2
 %state AFTER
 %state GETTER
+%state CLASS
+%state NAME
+%state TYPE
 %state IN_BAD
 
 %%
@@ -61,13 +66,25 @@ JAVASCRIPT = . | {WHITE_SPACE} | {CRLF} | {COMMENT} | {STRING} | {KEYWORD} | {PU
 <IN_BAD>             [^\r\n]+                        { return com.intellij.psi.TokenType.BAD_CHARACTER; }
 
 <YYINITIAL>          "+"                             { return PUSHER; }
-<YYINITIAL>          "["                             { return SUBCOOCOO; }
-<YYINITIAL, AFTER>   "]"                             { yybegin(AFTER); return SUBCOOCOO; }
+<YYINITIAL,
+ CLASS,
+ NAME>               "["                             { yybegin(YYINITIAL); return SUBCOOCOO; }
+<YYINITIAL,
+ AFTER,
+ CLASS,
+ NAME>               "]"                             { yybegin(AFTER); return SUBCOOCOO; }
 
-<YYINITIAL>          "$"                             { yybegin(GETTER); return VARIABLE_GETTER; }
-<YYINITIAL>          "@"                             { yybegin(GETTER); return PROPERTY_GETTER; }
-<YYINITIAL, AFTER>   "<"                             { yybegin(YYINITIAL); return TYPIFICATION; }
+<YYINITIAL,
+ CLASS,
+ NAME>               "$"                             { yybegin(GETTER); return VARIABLE_GETTER; }
+
+<YYINITIAL,
+ CLASS,
+ NAME>               "@"                             { yybegin(GETTER); return PROPERTY_GETTER; }
+
+<YYINITIAL, AFTER>   "<"                             { yybegin(TYPE); return TYPIFICATION; }
 <YYINITIAL, AFTER>   ">"                             { yybegin(AFTER); return TYPIFICATION; }
+<TYPE>               "?"                             { yybegin(YYINITIAL); return NULLABLE; }
 
 <YYINITIAL>          {STRING}                        { yybegin(AFTER); return STRING; }
 
@@ -78,10 +95,22 @@ JAVASCRIPT = . | {WHITE_SPACE} | {CRLF} | {COMMENT} | {STRING} | {KEYWORD} | {PU
 
 <YYINITIAL>          "JS"                            { yybegin(IN_JAVASCRIPT2); readMultilineJavaScript(YYINITIAL); return KEYWORD; }
 
-<YYINITIAL>          {KEYWORD}                       { yybegin(AFTER); return KEYWORD; }
+<YYINITIAL,
+ TYPE>               {KEYWORD_WITH_CLASS}            { yybegin(CLASS); return KEYWORD; }
+<YYINITIAL,
+ TYPE>               {KEYWORD_WITH_NAME}             { yybegin(NAME); return KEYWORD; }
+<YYINITIAL,
+ TYPE>               {KEYWORD}                       { yybegin(AFTER); return KEYWORD; }
+
+<CLASS>              {IDENTIFIER}                    { yybegin(AFTER); return COOCLASS; }
+<NAME>               {IDENTIFIER}                    { yybegin(AFTER); return COONAME; }
 <GETTER>             {IDENTIFIER}                    { yybegin(AFTER); return VARIABLE; }
-<YYINITIAL>          {IDENTIFIER}                    { yybegin(AFTER); return IDENTIFIER; }
+<YYINITIAL,
+ TYPE>               {IDENTIFIER}                    { yybegin(AFTER); return IDENTIFIER; }
 
                      {CRLF}                          { yybegin(YYINITIAL); return CRLF; }
+<CLASS,
+ NAME,
+ TYPE>               {WHITE_SPACE}                   { return WHITE_SPACE; }
                      {WHITE_SPACE}                   { yybegin(YYINITIAL); return WHITE_SPACE; }
                      .                               { yybegin(IN_BAD); return com.intellij.psi.TokenType.BAD_CHARACTER; }
