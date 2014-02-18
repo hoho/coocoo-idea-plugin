@@ -45,31 +45,31 @@ public class CoocooColorSettingsPage implements ColorSettingsPage {
     @Override
     public String getDemoText() {
         return "// Some comment\n" +
-                "VIEW Item\n" +
-                "    PROPERTY model<MODEL Item>\n" +
-                "    PROPERTY textNode<?Node>\n" +
+                "view Item\n" +
+                "    property model<model Item>\n" +
+                "    property textNode<?Node>\n" +
                 "\n" +
-                "    CONSTRUCT m\n" +
-                "        THIS SET model $m\n" +
+                "    construct m\n" +
+                "        this set model $m\n" +
                 "\n" +
-                "        MODEL Item $m\n" +
-                "            CHANGE \"title\" val\n" +
-                "                DOM @textNode TEXT SET $val\n" +
+                "        model Item $m\n" +
+                "            change \"title\" val\n" +
+                "                dom @textNode text set $val\n" +
                 "\n" +
-                "            DESTROY\n" +
-                "                THIS DESTROY\n" +
+                "            destroy\n" +
+                "                this destroy\n" +
                 "\n" +
-                "    RENDER\n" +
-                "        +TEMPLATE \"conkitty:item\" APPLY [+MODEL Item @model GET title]\n" +
+                "    render\n" +
+                "        +template \"conkitty:item\" apply [+model Item @model get title]\n" +
                 "            \"text\" node\n" +
-                "                THIS SET textNode $node\n" +
+                "                this set textNode $node\n" +
                 "\n" +
                 "            \"remove\" node\n" +
-                "                DOM $node\n" +
-                "                    CLICK\n" +
-                "                        JS\n" +
+                "                dom $node\n" +
+                "                    click\n" +
+                "                        js\n" +
                 "                            alert(123);\n" +
-                "                        MODEL Item @model DESTROY\n";
+                "                        model Item @model destroy\n";
     }
 
     @Nullable

@@ -34,10 +34,10 @@ WHITE_SPACE = [\ \t\f]+
 IDENTIFIER = [a-zA-Z_][a-zA-Z0-9_]*
 STRING = \"([^\"\r\n\\]|\\.)*\" | '([^'\r\n\\]|\\.)*'
 
-KEYWORD_WITH_CLASS = "MODEL"|"COLLECTION"|"VIEW"|"ROUTE"
-KEYWORD_WITH_NAME = "METHOD"|"PROPERTY"|"CALL"|"SET"|"GET"
-DOM = "CLICK"|"DBLCLICK"|"MOUSEDOWN"|"MOUSEUP"|"MOUSEOVER"|"MOUSEMOVE"|"MOUSEOUT"|"DRAGSTART"|"DRAG"|"DRAGENTER"|"DRAGLEAVE"|"DRAGOVER"|"DROP"|"DRAGEND"|"KEYDOWN"|"KEYPRESS"|"KEYUP"|"LOAD"|"UNLOAD"|"ABORT"|"ERROR"|"RESIZE"|"SCROLL"|"SELECT"|"CHANGE"|"INPUT"|"SUBMIT"|"RESET"|"FOCUS"|"BLUR"|"FOCUSIN"|"FOCUSOUT"
-KEYWORD = "APPLICATION"|"CONSTRUCT"|"DOM"|"DESTRUCT"|"DESTROY"|"THIS"|"TEXT"|"TEMPLATE"|"PARAM"|"APPLY"|"APPEND"|"RENDER"|"VALUE"|"CLASS"|"CREATE"|"ADD"|"REMOVE"|"TOGGLE"|"TEST"|"CHOOSE"|"WHEN"|"OTHERWISE"|"AJAX"|"TRIGGER"|"PATHNAME"|"HASH"|"QUERYSTRING"|"URL"|"POST"|"TYPE"|"DATA"|"SUCCESS"|"ERROR"|"COMPLETE"|"ON"|"OFF"|"EXTENDS"|"JS"|"FIND"|"EACH"|"FILTER"|{DOM}
+KEYWORD_WITH_CLASS = "model"|"collection"|"view"|"route"
+KEYWORD_WITH_NAME = "method"|"property"|"call"|"set"|"get"
+DOM = "click"|"dblclick"|"mousedown"|"mouseup"|"mouseover"|"mousemove"|"mouseout"|"dragstart"|"drag"|"dragenter"|"dragleave"|"dragover"|"drop"|"dragend"|"keydown"|"keypress"|"keyup"|"load"|"unload"|"abort"|"error"|"resize"|"scroll"|"select"|"change"|"input"|"submit"|"reset"|"focus"|"blur"|"focusin"|"focusout"
+KEYWORD = "application"|"routes"|"construct"|"dom"|"destruct"|"destroy"|"this"|"text"|"template"|"param"|"apply"|"append"|"render"|"value"|"class"|"create"|"add"|"remove"|"toggle"|"test"|"choose"|"when"|"otherwise"|"ajax"|"trigger"|"pathname"|"hash"|"search"|"url"|"post"|"type"|"data"|"success"|"error"|"complete"|"on"|"off"|"extends"|"js"|"find"|"each"|"filter"|"attribute"|"length"|"form"|"serialize"|"nomatch"|{DOM}
 COMMENT = [\ \t\f]* ("//" [^\r\n]*) [\ \t\f]*
 
 PUSHER = "+"
@@ -90,10 +90,11 @@ JAVASCRIPT = . | {WHITE_SPACE} | {CRLF} | {COMMENT} | {STRING} | {KEYWORD} | {PU
 
 <IN_JAVASCRIPT>      {JAVASCRIPT}                    { yybegin(IN_JAVASCRIPT2); readJavaScript(AFTER); return JAVASCRIPT; }
 <IN_JAVASCRIPT2>     {JAVASCRIPT}                    { return JAVASCRIPT; }
-<YYINITIAL>          "("                             { yybegin(IN_JAVASCRIPT); return JAVASCRIPT_BEGIN; }
+<YYINITIAL,
+ NAME>               "("                             { yybegin(IN_JAVASCRIPT); return JAVASCRIPT_BEGIN; }
                      ")"                             { return JAVASCRIPT_END; }
 
-<YYINITIAL>          "JS"                            { yybegin(IN_JAVASCRIPT2); readMultilineJavaScript(YYINITIAL); return KEYWORD; }
+<YYINITIAL>          "js"                            { yybegin(IN_JAVASCRIPT2); readMultilineJavaScript(YYINITIAL); return KEYWORD; }
 
 <YYINITIAL,
  TYPE>               {KEYWORD_WITH_CLASS}            { yybegin(CLASS); return KEYWORD; }
