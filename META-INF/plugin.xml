@@ -1,7 +1,7 @@
 <idea-plugin version="2">
   <id>com.hoho.coocoo</id>
   <name>Coocoo</name>
-  <version>0.0.2</version>
+  <version>0.0.3</version>
   <depends>com.intellij.modules.lang</depends>
   <vendor email="dakota@brokenpipe.ru" url="https://github.com/hoho">Marat Abdullin</vendor>
 

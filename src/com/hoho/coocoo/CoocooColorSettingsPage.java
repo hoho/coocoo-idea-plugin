@@ -66,7 +66,7 @@ public class CoocooColorSettingsPage implements ColorSettingsPage {
                 "\n" +
                 "            \"remove\" node\n" +
                 "                dom $node\n" +
-                "                    click\n" +
+                "                    \"click\"\n" +
                 "                        js\n" +
                 "                            alert(123);\n" +
                 "                        model Item @model destroy\n";

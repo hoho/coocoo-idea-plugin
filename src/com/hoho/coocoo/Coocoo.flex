@@ -34,10 +34,9 @@ WHITE_SPACE = [\ \t\f]+
 IDENTIFIER = [a-zA-Z_][a-zA-Z0-9_]*
 STRING = \"([^\"\r\n\\]|\\.)*\" | '([^'\r\n\\]|\\.)*'
 
-KEYWORD_WITH_CLASS = "model"|"collection"|"view"|"route"
+KEYWORD_WITH_CLASS = "model"|"collection"|"view"|"route"|"extends"
 KEYWORD_WITH_NAME = "method"|"property"|"call"|"set"|"reset"|"get"
-DOM = "click"|"dblclick"|"mousedown"|"mouseup"|"mouseover"|"mousemove"|"mouseout"|"dragstart"|"drag"|"dragenter"|"dragleave"|"dragover"|"drop"|"dragend"|"keydown"|"keypress"|"keyup"|"load"|"unload"|"abort"|"error"|"resize"|"scroll"|"select"|"change"|"input"|"submit"|"reset"|"focus"|"blur"|"focusin"|"focusout"
-KEYWORD = "application"|"routes"|"construct"|"dom"|"destruct"|"destroy"|"this"|"text"|"template"|"param"|"apply"|"append"|"render"|"value"|"class"|"create"|"add"|"remove"|"toggle"|"test"|"choose"|"when"|"otherwise"|"ajax"|"trigger"|"pathname"|"hash"|"search"|"url"|"post"|"type"|"data"|"success"|"error"|"complete"|"on"|"off"|"extends"|"js"|"find"|"each"|"filter"|"attribute"|"length"|"form"|"serialize"|"nomatch"|{DOM}
+KEYWORD = "application"|"routes"|"construct"|"dom"|"destruct"|"destroy"|"this"|"text"|"template"|"param"|"apply"|"append"|"render"|"value"|"class"|"create"|"change"|"add"|"remove"|"toggle"|"test"|"choose"|"when"|"otherwise"|"ajax"|"trigger"|"pathname"|"hash"|"search"|"url"|"post"|"type"|"data"|"success"|"error"|"complete"|"on"|"off"|"extends"|"js"|"find"|"each"|"filter"|"attribute"|"length"|"form"|"serialize"|"nomatch"
 COMMENT = [\ \t\f]* ("//" [^\r\n]*) [\ \t\f]*
 
 PUSHER = "+"
