@@ -36,7 +36,7 @@ STRING = \"([^\"\r\n\\]|\\.)*\" | '([^'\r\n\\]|\\.)*'
 
 KEYWORD_WITH_CLASS = "model"|"collection"|"view"|"route"|"extends"
 KEYWORD_WITH_NAME = "method"|"property"|"call"|"set"|"reset"|"get"
-KEYWORD = "application"|"routes"|"construct"|"dom"|"destruct"|"destroy"|"this"|"text"|"template"|"param"|"apply"|"append"|"render"|"value"|"class"|"create"|"change"|"add"|"remove"|"toggle"|"test"|"choose"|"when"|"otherwise"|"ajax"|"trigger"|"pathname"|"hash"|"search"|"url"|"post"|"type"|"data"|"success"|"error"|"complete"|"on"|"off"|"extends"|"js"|"find"|"each"|"filter"|"attribute"|"length"|"form"|"serialize"|"nomatch"
+KEYWORD = "application"|"routes"|"construct"|"dom"|"destruct"|"destroy"|"this"|"text"|"template"|"param"|"apply"|"append"|"render"|"value"|"class"|"create"|"change"|"add"|"remove"|"toggle"|"test"|"choose"|"when"|"otherwise"|"ajax"|"trigger"|"pathname"|"hash"|"search"|"url"|"post"|"type"|"data"|"success"|"error"|"complete"|"on"|"off"|"extends"|"js"|"find"|"each"|"filter"|"attribute"|"length"|"form"|"serialize"|"nomatch"|"super"|"once"
 COMMENT = [\ \t\f]* ("//" [^\r\n]*) [\ \t\f]*
 
 PUSHER = "+"
