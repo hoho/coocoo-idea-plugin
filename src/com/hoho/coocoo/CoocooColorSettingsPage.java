@@ -16,15 +16,14 @@ public class CoocooColorSettingsPage implements ColorSettingsPage {
             new AttributesDescriptor("Keyword", CoocooSyntaxHighlighter.KEYWORD),
             new AttributesDescriptor("Identifier", CoocooSyntaxHighlighter.IDENTIFIER),
             new AttributesDescriptor("Class", CoocooSyntaxHighlighter.COOCLASS),
-            new AttributesDescriptor("Name", CoocooSyntaxHighlighter.COONAME),
             new AttributesDescriptor("String", CoocooSyntaxHighlighter.STRING),
             new AttributesDescriptor("JavaScript", CoocooSyntaxHighlighter.JAVASCRIPT),
             new AttributesDescriptor("Comment", CoocooSyntaxHighlighter.COMMENT),
             new AttributesDescriptor("Pusher", CoocooSyntaxHighlighter.PUSHER),
             new AttributesDescriptor("Subcoocoo", CoocooSyntaxHighlighter.SUBCOOCOO),
-            new AttributesDescriptor("Variable getter", CoocooSyntaxHighlighter.VARIABLE_GETTER),
-            new AttributesDescriptor("Property getter", CoocooSyntaxHighlighter.PROPERTY_GETTER),
             new AttributesDescriptor("Variable", CoocooSyntaxHighlighter.VARIABLE),
+            new AttributesDescriptor("Property", CoocooSyntaxHighlighter.PROPERTY),
+            new AttributesDescriptor("Accessor", CoocooSyntaxHighlighter.ACCESSOR),
             new AttributesDescriptor("Typification", CoocooSyntaxHighlighter.TYPIFICATION),
             new AttributesDescriptor("Nullable", CoocooSyntaxHighlighter.NULLABLE),
     };
@@ -46,30 +45,36 @@ public class CoocooColorSettingsPage implements ColorSettingsPage {
     public String getDemoText() {
         return "// Some comment\n" +
                 "view Item\n" +
-                "    property model<model Item>\n" +
-                "    property textNode<?Node>\n" +
+                "    @model<model Item>\n" +
+                "    @textNode<?dom>\n" +
                 "\n" +
-                "    construct m\n" +
-                "        this set model $m\n" +
+                "    construct $m\n" +
+                "        set @model $m\n" +
                 "\n" +
                 "        model Item $m\n" +
-                "            change \"title\" val\n" +
+                "            on change \"title\" $val\n" +
                 "                dom @textNode text set $val\n" +
                 "\n" +
-                "            destroy\n" +
-                "                this destroy\n" +
+                "            on destroy\n" +
+                "                destroy\n" +
                 "\n" +
-                "    render\n" +
-                "        +template \"conkitty:item\" apply [+model Item @model get title]\n" +
-                "            \"text\" node\n" +
-                "                this set textNode $node\n" +
+                "       =set $tmp" +
+                "           +call someMethod (1) (2)" +
                 "\n" +
-                "            \"remove\" node\n" +
+                "    ^render\n" +
+                "        *template \"conkitty:item\" apply [+model Item @model get @title]\n" +
+                "            \"text\" $node\n" +
+                "                set @textNode $node\n" +
+                "\n" +
+                "            \"remove\" $node\n" +
                 "                dom $node\n" +
-                "                    \"click\"\n" +
+                "                    on \"click\"\n" +
                 "                        js\n" +
                 "                            alert(123);\n" +
-                "                        model Item @model destroy\n";
+                "                        model Item @model destroy\n" +
+                "\n" +
+                "    =someMethod $arg1 $arg2\n" +
+                "        +(arg1 + arg2)";
     }
 
     @Nullable
